@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const copyBtn = document.getElementById('copyBtn');
     const copyText = document.getElementById('copyText');
     const copyIcon = document.getElementById('copyIcon');
+    const downloadDocxBtn = document.getElementById('downloadDocxBtn');
+
+    // Store current worksheet settings for docx generation
+    let currentWorksheetSettings = {};
 
     // Update terms when subject changes
     subjectSelect.addEventListener('change', function() {
@@ -106,9 +110,21 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Store settings for docx generation
+        currentWorksheetSettings = {
+            subject,
+            yearGroup,
+            term,
+            topic,
+            difficulty,
+            readingAge,
+            numTasks,
+            selectedSend
+        };
+
         // Generate the prompt
         const prompt = generatePrompt(subject, yearGroup, term, topic, difficulty, readingAge, numTasks, selectedSend);
-        
+
         // Display the output
         promptOutput.textContent = prompt;
         outputSection.classList.remove('hidden');
@@ -157,4 +173,209 @@ document.addEventListener('DOMContentLoaded', function() {
         document.execCommand('copy');
         document.body.removeChild(textArea);
     }
+
+    // Download as .docx
+    downloadDocxBtn.addEventListener('click', async function() {
+        const { subject, yearGroup, term, topic, difficulty, readingAge, numTasks, selectedSend } = currentWorksheetSettings;
+
+        if (!subject) {
+            alert('Please generate a prompt first.');
+            return;
+        }
+
+        const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle } = docx;
+
+        // Create document children array
+        const children = [];
+
+        // Title
+        children.push(
+            new Paragraph({
+                children: [
+                    new TextRun({
+                        text: `${subject} Worksheet`,
+                        bold: true,
+                        size: 48,
+                        color: "2D3142"
+                    })
+                ],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 200 }
+            })
+        );
+
+        // Subtitle with details
+        children.push(
+            new Paragraph({
+                children: [
+                    new TextRun({
+                        text: `${yearGroup} | ${term} | ${topic}`,
+                        size: 24,
+                        color: "4F5D75"
+                    })
+                ],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 100 }
+            })
+        );
+
+        children.push(
+            new Paragraph({
+                children: [
+                    new TextRun({
+                        text: `Difficulty: ${difficulty} | Reading Age: ${readingAge}`,
+                        size: 20,
+                        color: "4F5D75",
+                        italics: true
+                    })
+                ],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 400 }
+            })
+        );
+
+        // Horizontal line
+        children.push(
+            new Paragraph({
+                border: {
+                    bottom: { color: "E8E6DF", size: 1, style: BorderStyle.SINGLE }
+                },
+                spacing: { after: 400 }
+            })
+        );
+
+        // SEND adaptations note if any
+        if (selectedSend && selectedSend.length > 0) {
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: "SEND Adaptations Applied: ",
+                            bold: true,
+                            size: 20
+                        }),
+                        new TextRun({
+                            text: selectedSend.join(", "),
+                            size: 20,
+                            italics: true
+                        })
+                    ],
+                    spacing: { after: 300 }
+                })
+            );
+        }
+
+        // Instructions section
+        children.push(
+            new Paragraph({
+                text: "Instructions",
+                heading: HeadingLevel.HEADING_2,
+                spacing: { before: 200, after: 100 }
+            })
+        );
+
+        children.push(
+            new Paragraph({
+                children: [
+                    new TextRun({
+                        text: "Answer all questions in the spaces provided. Show your working where appropriate.",
+                        size: 22
+                    })
+                ],
+                spacing: { after: 400 }
+            })
+        );
+
+        // Questions section
+        children.push(
+            new Paragraph({
+                text: "Questions",
+                heading: HeadingLevel.HEADING_2,
+                spacing: { before: 200, after: 200 }
+            })
+        );
+
+        // Add numbered questions with space for answers
+        const totalQuestions = parseInt(numTasks);
+        for (let i = 1; i <= totalQuestions; i++) {
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: `${i}. `,
+                            bold: true,
+                            size: 24
+                        }),
+                        new TextRun({
+                            text: `[Question ${i} - ${topic}]`,
+                            size: 24,
+                            color: "666666"
+                        })
+                    ],
+                    spacing: { before: 200, after: 100 }
+                })
+            );
+
+            // Answer space
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: "Answer: ",
+                            size: 22,
+                            color: "888888"
+                        }),
+                        new TextRun({
+                            text: "_".repeat(60),
+                            size: 22,
+                            color: "CCCCCC"
+                        })
+                    ],
+                    spacing: { after: 300 }
+                })
+            );
+        }
+
+        // Footer with generation info
+        children.push(
+            new Paragraph({
+                border: {
+                    top: { color: "E8E6DF", size: 1, style: BorderStyle.SINGLE }
+                },
+                spacing: { before: 600 }
+            })
+        );
+
+        children.push(
+            new Paragraph({
+                children: [
+                    new TextRun({
+                        text: "Generated by Worksheet Generator | ",
+                        size: 18,
+                        color: "999999"
+                    }),
+                    new TextRun({
+                        text: new Date().toLocaleDateString(),
+                        size: 18,
+                        color: "999999"
+                    })
+                ],
+                alignment: AlignmentType.CENTER,
+                spacing: { before: 200 }
+            })
+        );
+
+        // Create the document
+        const doc = new Document({
+            sections: [{
+                properties: {},
+                children: children
+            }]
+        });
+
+        // Generate and download
+        const blob = await Packer.toBlob(doc);
+        const filename = `${subject}_${yearGroup}_${topic.replace(/\s+/g, '_')}_worksheet.docx`;
+        saveAs(blob, filename);
+    });
 });

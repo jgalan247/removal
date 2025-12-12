@@ -36,6 +36,10 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Docx library for Word document generation -->
+    <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
 </head>
 <body class="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
@@ -261,12 +265,20 @@
             <div class="bg-paper rounded-2xl paper-shadow p-6 sm:p-8">
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="font-display text-2xl font-bold text-slate">Generated Prompt</h2>
-                    <button id="copyBtn" class="copy-btn inline-flex items-center gap-2 px-4 py-2 bg-marker hover:bg-marker/90 text-white font-semibold rounded-lg transition-all focus:outline-none focus:ring-4 focus:ring-marker/30">
-                        <svg id="copyIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                        </svg>
-                        <span id="copyText">Copy</span>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button id="downloadDocxBtn" class="inline-flex items-center gap-2 px-4 py-2 bg-highlight hover:bg-highlight/90 text-white font-semibold rounded-lg transition-all focus:outline-none focus:ring-4 focus:ring-highlight/30">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span>Download .docx</span>
+                        </button>
+                        <button id="copyBtn" class="copy-btn inline-flex items-center gap-2 px-4 py-2 bg-marker hover:bg-marker/90 text-white font-semibold rounded-lg transition-all focus:outline-none focus:ring-4 focus:ring-marker/30">
+                            <svg id="copyIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                            <span id="copyText">Copy</span>
+                        </button>
+                    </div>
                 </div>
                 <p class="text-pencil/70 text-sm mb-4">
                     Copy this prompt and paste it into ChatGPT, Copilot, or Claude to generate your worksheet.
