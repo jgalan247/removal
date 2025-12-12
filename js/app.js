@@ -393,24 +393,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add numbered questions with answer boxes
         const totalQuestions = parseInt(numTasks);
         for (let i = 1; i <= totalQuestions; i++) {
-            // Question number and text
+            // Question number and text on same line
             children.push(
                 new Paragraph({
                     children: [
                         new TextRun({
-                            text: `Question ${i}`,
+                            text: `${i}. `,
                             bold: true,
                             size: 26,
                             color: "EF8354"
-                        })
-                    ],
-                    spacing: { before: 400, after: 120 }
-                })
-            );
-
-            children.push(
-                new Paragraph({
-                    children: [
+                        }),
                         new TextRun({
                             text: `[Enter your question about ${topic} here]`,
                             size: 24,
@@ -418,7 +410,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             italics: true
                         })
                     ],
-                    spacing: { after: 200 }
+                    spacing: { before: 400, after: 200 }
                 })
             );
 
