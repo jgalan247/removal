@@ -372,6 +372,110 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         children.push(instructionsTable);
 
+        // Spacing before key information
+        children.push(new Paragraph({ spacing: { after: 400 } }));
+
+        // Key Information box
+        const keyInfoTable = new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            rows: [
+                new TableRow({
+                    children: [
+                        new TableCell({
+                            children: [
+                                new Paragraph({
+                                    children: [
+                                        new TextRun({
+                                            text: "Key Information",
+                                            bold: true,
+                                            size: 26
+                                        })
+                                    ],
+                                    spacing: { before: 160, after: 120 }
+                                }),
+                                new Paragraph({
+                                    children: [
+                                        new TextRun({
+                                            text: "[Add key vocabulary, formulas, or concepts here]",
+                                            size: 22,
+                                            color: "666666",
+                                            italics: true
+                                        })
+                                    ],
+                                    spacing: { after: 80 }
+                                }),
+                                new Paragraph({
+                                    children: [
+                                        new TextRun({
+                                            text: "• ",
+                                            size: 22
+                                        }),
+                                        new TextRun({
+                                            text: "[Key term 1]",
+                                            size: 22,
+                                            color: "666666",
+                                            italics: true
+                                        }),
+                                        new TextRun({
+                                            text: " - [Definition or explanation]",
+                                            size: 22,
+                                            color: "666666",
+                                            italics: true
+                                        })
+                                    ],
+                                    spacing: { after: 60 }
+                                }),
+                                new Paragraph({
+                                    children: [
+                                        new TextRun({
+                                            text: "• ",
+                                            size: 22
+                                        }),
+                                        new TextRun({
+                                            text: "[Key term 2]",
+                                            size: 22,
+                                            color: "666666",
+                                            italics: true
+                                        }),
+                                        new TextRun({
+                                            text: " - [Definition or explanation]",
+                                            size: 22,
+                                            color: "666666",
+                                            italics: true
+                                        })
+                                    ],
+                                    spacing: { after: 60 }
+                                }),
+                                new Paragraph({
+                                    children: [
+                                        new TextRun({
+                                            text: "• ",
+                                            size: 22
+                                        }),
+                                        new TextRun({
+                                            text: "[Worked example or formula]",
+                                            size: 22,
+                                            color: "666666",
+                                            italics: true
+                                        })
+                                    ],
+                                    spacing: { after: 160 }
+                                })
+                            ],
+                            borders: {
+                                top: { style: BorderStyle.SINGLE, size: 12, color: "EF8354" },
+                                bottom: { style: BorderStyle.SINGLE, size: 12, color: "EF8354" },
+                                left: { style: BorderStyle.SINGLE, size: 12, color: "EF8354" },
+                                right: { style: BorderStyle.SINGLE, size: 12, color: "EF8354" }
+                            },
+                            shading: { fill: "FFF8F5", type: ShadingType.CLEAR }
+                        })
+                    ]
+                })
+            ]
+        });
+        children.push(keyInfoTable);
+
         // Spacing before questions
         children.push(new Paragraph({ spacing: { after: 500 } }));
 
@@ -410,7 +514,28 @@ document.addEventListener('DOMContentLoaded', function() {
                             italics: true
                         })
                     ],
-                    spacing: { before: 400, after: 200 }
+                    spacing: { before: 400, after: 100 }
+                })
+            );
+
+            // Hint for the question
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: "Hint: ",
+                            bold: true,
+                            size: 20,
+                            color: "4ECDC4"
+                        }),
+                        new TextRun({
+                            text: "[Add a helpful hint or tip here]",
+                            size: 20,
+                            color: "888888",
+                            italics: true
+                        })
+                    ],
+                    spacing: { after: 200 }
                 })
             );
 
