@@ -183,19 +183,35 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle } = docx;
+        const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, Table, TableRow, TableCell, WidthType, VerticalAlign, ShadingType, convertInchesToTwip } = docx;
 
         // Create document children array
         const children = [];
 
-        // Title
+        // School header placeholder
         children.push(
             new Paragraph({
                 children: [
                     new TextRun({
-                        text: `${subject} Worksheet`,
+                        text: "[School Name]",
                         bold: true,
-                        size: 48,
+                        size: 28,
+                        color: "666666"
+                    })
+                ],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 120 }
+            })
+        );
+
+        // Main Title
+        children.push(
+            new Paragraph({
+                children: [
+                    new TextRun({
+                        text: `${subject}: ${topic}`,
+                        bold: true,
+                        size: 56,
                         color: "2D3142"
                     })
                 ],
@@ -204,18 +220,271 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         );
 
-        // Subtitle with details
+        // Year group and term subtitle
         children.push(
             new Paragraph({
                 children: [
                     new TextRun({
-                        text: `${yearGroup} | ${term} | ${topic}`,
-                        size: 24,
+                        text: `${yearGroup} • ${term} • ${difficulty} Level`,
+                        size: 26,
                         color: "4F5D75"
                     })
                 ],
                 alignment: AlignmentType.CENTER,
-                spacing: { after: 100 }
+                spacing: { after: 400 }
+            })
+        );
+
+        // Student info box
+        const studentInfoTable = new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            rows: [
+                new TableRow({
+                    children: [
+                        new TableCell({
+                            children: [
+                                new Paragraph({
+                                    children: [
+                                        new TextRun({ text: "Name: ", bold: true, size: 24 }),
+                                        new TextRun({ text: "________________________________________", size: 24, color: "AAAAAA" })
+                                    ],
+                                    spacing: { before: 120, after: 120 }
+                                })
+                            ],
+                            width: { size: 50, type: WidthType.PERCENTAGE },
+                            borders: {
+                                top: { style: BorderStyle.SINGLE, size: 8, color: "DDDDDD" },
+                                bottom: { style: BorderStyle.SINGLE, size: 8, color: "DDDDDD" },
+                                left: { style: BorderStyle.SINGLE, size: 8, color: "DDDDDD" },
+                                right: { style: BorderStyle.NONE }
+                            },
+                            shading: { fill: "F8F8F8", type: ShadingType.CLEAR }
+                        }),
+                        new TableCell({
+                            children: [
+                                new Paragraph({
+                                    children: [
+                                        new TextRun({ text: "Date: ", bold: true, size: 24 }),
+                                        new TextRun({ text: "_____________________", size: 24, color: "AAAAAA" })
+                                    ],
+                                    spacing: { before: 120, after: 120 }
+                                })
+                            ],
+                            width: { size: 50, type: WidthType.PERCENTAGE },
+                            borders: {
+                                top: { style: BorderStyle.SINGLE, size: 8, color: "DDDDDD" },
+                                bottom: { style: BorderStyle.SINGLE, size: 8, color: "DDDDDD" },
+                                left: { style: BorderStyle.NONE },
+                                right: { style: BorderStyle.SINGLE, size: 8, color: "DDDDDD" }
+                            },
+                            shading: { fill: "F8F8F8", type: ShadingType.CLEAR }
+                        })
+                    ]
+                })
+            ]
+        });
+        children.push(studentInfoTable);
+
+        // Spacing after student info
+        children.push(new Paragraph({ spacing: { after: 400 } }));
+
+        // SEND adaptations note if any (teacher reference - can be removed)
+        if (selectedSend && selectedSend.length > 0) {
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: "Adaptations: ",
+                            bold: true,
+                            size: 20,
+                            color: "888888",
+                            italics: true
+                        }),
+                        new TextRun({
+                            text: selectedSend.join(", "),
+                            size: 20,
+                            color: "888888",
+                            italics: true
+                        })
+                    ],
+                    spacing: { after: 200 }
+                })
+            );
+        }
+
+        // Instructions box
+        const instructionsTable = new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            rows: [
+                new TableRow({
+                    children: [
+                        new TableCell({
+                            children: [
+                                new Paragraph({
+                                    children: [
+                                        new TextRun({
+                                            text: "Instructions",
+                                            bold: true,
+                                            size: 26
+                                        })
+                                    ],
+                                    spacing: { before: 160, after: 80 }
+                                }),
+                                new Paragraph({
+                                    children: [
+                                        new TextRun({
+                                            text: "• Read each question carefully before answering.",
+                                            size: 22
+                                        })
+                                    ],
+                                    spacing: { after: 60 }
+                                }),
+                                new Paragraph({
+                                    children: [
+                                        new TextRun({
+                                            text: "• Write your answers in the boxes provided.",
+                                            size: 22
+                                        })
+                                    ],
+                                    spacing: { after: 60 }
+                                }),
+                                new Paragraph({
+                                    children: [
+                                        new TextRun({
+                                            text: "• Show your working where appropriate.",
+                                            size: 22
+                                        })
+                                    ],
+                                    spacing: { after: 160 }
+                                })
+                            ],
+                            borders: {
+                                top: { style: BorderStyle.SINGLE, size: 12, color: "4ECDC4" },
+                                bottom: { style: BorderStyle.SINGLE, size: 12, color: "4ECDC4" },
+                                left: { style: BorderStyle.SINGLE, size: 12, color: "4ECDC4" },
+                                right: { style: BorderStyle.SINGLE, size: 12, color: "4ECDC4" }
+                            },
+                            shading: { fill: "F0FFFE", type: ShadingType.CLEAR }
+                        })
+                    ]
+                })
+            ]
+        });
+        children.push(instructionsTable);
+
+        // Spacing before questions
+        children.push(new Paragraph({ spacing: { after: 500 } }));
+
+        // Questions section header
+        children.push(
+            new Paragraph({
+                children: [
+                    new TextRun({
+                        text: "Questions",
+                        bold: true,
+                        size: 32,
+                        color: "2D3142"
+                    })
+                ],
+                spacing: { after: 300 }
+            })
+        );
+
+        // Add numbered questions with answer boxes
+        const totalQuestions = parseInt(numTasks);
+        for (let i = 1; i <= totalQuestions; i++) {
+            // Question number and text
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: `Question ${i}`,
+                            bold: true,
+                            size: 26,
+                            color: "EF8354"
+                        })
+                    ],
+                    spacing: { before: 400, after: 120 }
+                })
+            );
+
+            children.push(
+                new Paragraph({
+                    children: [
+                        new TextRun({
+                            text: `[Enter your question about ${topic} here]`,
+                            size: 24,
+                            color: "666666",
+                            italics: true
+                        })
+                    ],
+                    spacing: { after: 200 }
+                })
+            );
+
+            // Answer box with border
+            const answerBox = new Table({
+                width: { size: 100, type: WidthType.PERCENTAGE },
+                rows: [
+                    new TableRow({
+                        children: [
+                            new TableCell({
+                                children: [
+                                    new Paragraph({
+                                        children: [
+                                            new TextRun({
+                                                text: "Answer:",
+                                                bold: true,
+                                                size: 22,
+                                                color: "666666"
+                                            })
+                                        ],
+                                        spacing: { before: 120, after: 80 }
+                                    }),
+                                    // Multiple blank lines for writing space
+                                    new Paragraph({ spacing: { after: 300 } }),
+                                    new Paragraph({ spacing: { after: 300 } }),
+                                    new Paragraph({ spacing: { after: 300 } }),
+                                    new Paragraph({ spacing: { after: 200 } })
+                                ],
+                                borders: {
+                                    top: { style: BorderStyle.SINGLE, size: 8, color: "CCCCCC" },
+                                    bottom: { style: BorderStyle.SINGLE, size: 8, color: "CCCCCC" },
+                                    left: { style: BorderStyle.SINGLE, size: 8, color: "CCCCCC" },
+                                    right: { style: BorderStyle.SINGLE, size: 8, color: "CCCCCC" }
+                                },
+                                shading: { fill: "FAFAFA", type: ShadingType.CLEAR }
+                            })
+                        ]
+                    })
+                ]
+            });
+            children.push(answerBox);
+
+            // Spacing between questions
+            children.push(new Paragraph({ spacing: { after: 200 } }));
+        }
+
+        // Page break before teacher section (optional - can be removed)
+        children.push(
+            new Paragraph({
+                pageBreakBefore: true
+            })
+        );
+
+        // Teacher's Answer Key header
+        children.push(
+            new Paragraph({
+                children: [
+                    new TextRun({
+                        text: "Answer Key",
+                        bold: true,
+                        size: 36,
+                        color: "2D3142"
+                    })
+                ],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 120 }
             })
         );
 
@@ -223,9 +492,9 @@ document.addEventListener('DOMContentLoaded', function() {
             new Paragraph({
                 children: [
                     new TextRun({
-                        text: `Difficulty: ${difficulty} | Reading Age: ${readingAge}`,
+                        text: "(Teacher Reference - Remove before printing)",
                         size: 20,
-                        color: "4F5D75",
+                        color: "999999",
                         italics: true
                     })
                 ],
@@ -234,69 +503,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         );
 
-        // Horizontal line
-        children.push(
-            new Paragraph({
-                border: {
-                    bottom: { color: "E8E6DF", size: 1, style: BorderStyle.SINGLE }
-                },
-                spacing: { after: 400 }
-            })
-        );
-
-        // SEND adaptations note if any
-        if (selectedSend && selectedSend.length > 0) {
-            children.push(
-                new Paragraph({
-                    children: [
-                        new TextRun({
-                            text: "SEND Adaptations Applied: ",
-                            bold: true,
-                            size: 20
-                        }),
-                        new TextRun({
-                            text: selectedSend.join(", "),
-                            size: 20,
-                            italics: true
-                        })
-                    ],
-                    spacing: { after: 300 }
-                })
-            );
-        }
-
-        // Instructions section
-        children.push(
-            new Paragraph({
-                text: "Instructions",
-                heading: HeadingLevel.HEADING_2,
-                spacing: { before: 200, after: 100 }
-            })
-        );
-
-        children.push(
-            new Paragraph({
-                children: [
-                    new TextRun({
-                        text: "Answer all questions in the spaces provided. Show your working where appropriate.",
-                        size: 22
-                    })
-                ],
-                spacing: { after: 400 }
-            })
-        );
-
-        // Questions section
-        children.push(
-            new Paragraph({
-                text: "Questions",
-                heading: HeadingLevel.HEADING_2,
-                spacing: { before: 200, after: 200 }
-            })
-        );
-
-        // Add numbered questions with space for answers
-        const totalQuestions = parseInt(numTasks);
+        // Answer key placeholders
         for (let i = 1; i <= totalQuestions; i++) {
             children.push(
                 new Paragraph({
@@ -307,42 +514,29 @@ document.addEventListener('DOMContentLoaded', function() {
                             size: 24
                         }),
                         new TextRun({
-                            text: `[Question ${i} - ${topic}]`,
+                            text: "[Answer and explanation]",
                             size: 24,
-                            color: "666666"
+                            color: "666666",
+                            italics: true
                         })
                     ],
-                    spacing: { before: 200, after: 100 }
-                })
-            );
-
-            // Answer space
-            children.push(
-                new Paragraph({
-                    children: [
-                        new TextRun({
-                            text: "Answer: ",
-                            size: 22,
-                            color: "888888"
-                        }),
-                        new TextRun({
-                            text: "_".repeat(60),
-                            size: 22,
-                            color: "CCCCCC"
-                        })
-                    ],
-                    spacing: { after: 300 }
+                    spacing: { before: 200, after: 200 }
                 })
             );
         }
 
-        // Footer with generation info
+        // Footer
         children.push(
             new Paragraph({
-                border: {
-                    top: { color: "E8E6DF", size: 1, style: BorderStyle.SINGLE }
-                },
-                spacing: { before: 600 }
+                children: [
+                    new TextRun({
+                        text: "─".repeat(50),
+                        size: 16,
+                        color: "DDDDDD"
+                    })
+                ],
+                alignment: AlignmentType.CENTER,
+                spacing: { before: 600, after: 200 }
             })
         );
 
@@ -350,25 +544,28 @@ document.addEventListener('DOMContentLoaded', function() {
             new Paragraph({
                 children: [
                     new TextRun({
-                        text: "Generated by Worksheet Generator | ",
+                        text: `Generated by Worksheet Generator • ${new Date().toLocaleDateString()}`,
                         size: 18,
-                        color: "999999"
-                    }),
-                    new TextRun({
-                        text: new Date().toLocaleDateString(),
-                        size: 18,
-                        color: "999999"
+                        color: "AAAAAA"
                     })
                 ],
-                alignment: AlignmentType.CENTER,
-                spacing: { before: 200 }
+                alignment: AlignmentType.CENTER
             })
         );
 
-        // Create the document
+        // Create the document with proper page margins
         const doc = new Document({
             sections: [{
-                properties: {},
+                properties: {
+                    page: {
+                        margin: {
+                            top: convertInchesToTwip(1),
+                            right: convertInchesToTwip(1),
+                            bottom: convertInchesToTwip(1),
+                            left: convertInchesToTwip(1)
+                        }
+                    }
+                },
                 children: children
             }]
         });
