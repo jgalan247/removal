@@ -502,16 +502,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 new Paragraph({
                     children: [
                         new TextRun({
-                            text: `${i}. `,
+                            text: `${i}. [Enter question here]`,
                             bold: true,
-                            size: 26,
-                            color: "EF8354"
-                        }),
-                        new TextRun({
-                            text: `[Enter your question about ${topic} here]`,
-                            size: 24,
-                            color: "666666",
-                            italics: true
+                            size: 26
                         })
                     ],
                     spacing: { before: 400, after: 100 }
