@@ -457,14 +457,7 @@ document.addEventListener('DOMContentLoaded', function() {
             children.push(new Paragraph({ spacing: { after: 200 } }));
         }
 
-        // Page break before teacher section (optional - can be removed)
-        children.push(
-            new Paragraph({
-                pageBreakBefore: true
-            })
-        );
-
-        // Teacher's Answer Key header
+        // Teacher's Answer Key header (on new page)
         children.push(
             new Paragraph({
                 children: [
@@ -476,7 +469,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                 ],
                 alignment: AlignmentType.CENTER,
-                spacing: { after: 120 }
+                spacing: { after: 120 },
+                pageBreakBefore: true
             })
         );
 
