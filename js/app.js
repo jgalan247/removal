@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, Table, TableRow, TableCell, WidthType, VerticalAlign, ShadingType, convertInchesToTwip } = docx;
+        const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, Table, TableRow, TableCell, WidthType, VerticalAlign, ShadingType, convertInchesToTwip, PageBreak } = docx;
 
         // Create document children array
         const children = [];
@@ -575,6 +575,13 @@ document.addEventListener('DOMContentLoaded', function() {
             children.push(new Paragraph({ spacing: { after: 200 } }));
         }
 
+        // Page break before Answer Key
+        children.push(
+            new Paragraph({
+                children: [new PageBreak()]
+            })
+        );
+
         // Teacher's Answer Key header (on new page)
         children.push(
             new Paragraph({
@@ -587,8 +594,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                 ],
                 alignment: AlignmentType.CENTER,
-                spacing: { after: 120 },
-                pageBreakBefore: true
+                spacing: { after: 120 }
             })
         );
 
