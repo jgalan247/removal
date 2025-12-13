@@ -254,11 +254,11 @@ const curriculumData = {
 
 // SEND Adaptation Guidelines
 const sendGuidelines = {
-    "Autism": "predictable structure, minimal distractions, visual cues, consistent formatting, clear expectations",
-    "Dyslexia": "short sentences, highlighted keywords, avoid dense text, use sans-serif font, good spacing",
-    "ADHD": "short tasks, engaging real-world contexts, step-by-step instructions, varied question styles",
-    "Slow Processing": "simplified wording, chunked steps, extra white space, fewer items per page",
-    "Anxiety": "encouraging tone, confidence-building language, low-stakes practice, positive reinforcement"
+    "Autism": "predictable structure, minimal distractions, visual cues, consistent formatting, clear expectations, numbered steps, avoid ambiguous language, use literal instructions",
+    "Dyslexia": "short sentences, highlighted keywords, avoid dense text, use sans-serif font, good line spacing, bullet points, avoid italics, use bold for emphasis instead",
+    "ADHD": "short focused tasks, engaging real-world contexts, step-by-step instructions, varied question styles, chunked information, clear start/end points for each task",
+    "Slow Processing": "simplified wording, chunked steps, consistent moderate white space (not excessive), 4-5 questions per page, bordered working boxes instead of blank space, clear visual structure",
+    "Anxiety": "encouraging tone, confidence-building language, low-stakes practice, positive reinforcement, gentle difficulty progression, include reassuring prompts like 'Try your best'"
 };
 
 // Subject-specific formatting notes

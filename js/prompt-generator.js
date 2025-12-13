@@ -23,8 +23,15 @@ ${subjectFormatting[subject]}
 
 ## General Formatting Requirements
 - Output in Markdown format
-- Include clear spacing between questions
 - Number all questions clearly
+
+## Layout and Spacing Requirements
+- Use consistent, moderate spacing between questions (not excessive white space)
+- Working space for each question should be a fixed height (e.g., 3-4 lines)
+- Avoid large empty gaps at the bottom of pages
+- Fit 4-5 questions per page where possible (balancing readability with page economy)
+- Use ruled lines or a small box for working space rather than blank area
+- Questions should flow naturally with page breaks only when necessary (not forcing new pages mid-worksheet)
 
 ## Visual Support
 Include relevant diagrams, images, or visual aids to support learning where appropriate:
