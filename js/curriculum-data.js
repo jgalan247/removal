@@ -272,3 +272,15 @@ const subjectFormatting = {
     "French": "Include French text with English translations in brackets, use accent marks correctly",
     "Spanish": "Include Spanish text with English translations in brackets, use accent marks and ñ correctly"
 };
+
+// Subject-specific visual support
+const visualSupport = {
+    "Maths": "Include diagrams of shapes (triangles, rectangles, circles), number lines, bar models, fraction diagrams, graphs, or tables as needed for each question. Draw the shapes/diagrams directly in the worksheet.",
+    "English": "Include text boxes for extracts, graphic organisers, story maps, or writing frames where appropriate to support comprehension and writing tasks.",
+    "Science": "Include labelled diagrams of experiments, organisms, body parts, circuits, or scientific processes. Diagrams should be clear and annotated.",
+    "History": "Include timelines, source images descriptions, or historical artefact illustrations to help students engage with historical evidence.",
+    "Geography": "Include simple maps, climate graphs, or diagrams showing geographical features. Use annotated diagrams for processes like the water cycle.",
+    "Computing": "Include flowcharts, pseudocode boxes, or screen layout diagrams to visualise algorithms and processes.",
+    "French": "Include images depicting vocabulary items, speech bubbles for dialogue practice, or visual scenarios to support language learning.",
+    "Spanish": "Include images depicting vocabulary items, speech bubbles for dialogue practice, or visual scenarios to support language learning."
+};

@@ -34,14 +34,7 @@ ${subjectFormatting[subject]}
 - Questions should flow naturally with page breaks only when necessary (not forcing new pages mid-worksheet)
 
 ## Visual Support
-Include relevant diagrams, images, or visual aids to support learning where appropriate:
-- **Maths:** Include diagrams of shapes (triangles, rectangles, circles), number lines, bar models, fraction diagrams, graphs, or tables as needed for each question
-- **Science:** Include labelled diagrams of experiments, organisms, body parts, circuits, or scientific processes
-- **Geography:** Include simple maps, climate graphs, or diagrams showing geographical features
-- **History:** Include timelines, source images, or historical artefact illustrations
-- **English:** Include text boxes for extracts, graphic organisers, or story maps
-- **Computing:** Include flowcharts, pseudocode boxes, or screen layout diagrams
-- **Languages:** Include images depicting vocabulary items, speech bubbles, or dialogue scenarios
+${visualSupport[subject]}
 
 Visual aids help students understand questions better and support different learning styles.`;
 
