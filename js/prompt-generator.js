@@ -151,7 +151,7 @@ The language complexity should be appropriate for a reading age of ${readingAge}
     prompt += `\n\n---
 Please generate the complete worksheet now, ready for a teacher to use.
 
-**IMPORTANT:** After generating the worksheet, please provide a downloadable file (Word document .docx or PDF) so the teacher can download and print it directly.`;
+**OUTPUT FORMAT:** Format the worksheet so the teacher can easily copy and paste it into Microsoft Word or Google Docs. Use clear headings, numbered questions, and proper spacing. The teacher will use the "Download .docx" button on our website to get a template, then paste your questions into it.`;
 
     return prompt;
 }
