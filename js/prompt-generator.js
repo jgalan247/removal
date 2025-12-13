@@ -137,7 +137,9 @@ The language complexity should be appropriate for a reading age of ${readingAge}
     }
 
     prompt += `\n\n---
-Please generate the complete worksheet now, ready for a teacher to use or export to PDF.`;
+Please generate the complete worksheet now, ready for a teacher to use.
+
+**IMPORTANT:** After generating the worksheet, please provide a downloadable file (Word document .docx or PDF) so the teacher can download and print it directly.`;
 
     return prompt;
 }
